@@ -22,7 +22,11 @@ const userSchema = new mongoose.Schema({
 	coinsPerClick: { type: Number, default: 1 },
 	multiplier: { type: Number, default: 1 },
 })
-
+const corsOptions = {
+  origin: 'https://tapalka-rho.vercel.app',  // Ваш фронтенд домен
+  methods: ['GET', 'POST'],
+  credentials: true,  // Разрешаем использование cookies
+};
 const User = mongoose.model('User', userSchema)
 
 const app = express()
