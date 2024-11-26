@@ -7,29 +7,32 @@ let multiplier = 1
 
 // Функция для обновления данных пользователя
 async function fetchUser() {
-  try {
-    const response = await fetch(`https://tapalka-rho.vercel.app/user/${username}`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    if (!response.ok) {
-      throw new Error('Пользователь не найден');
-    }
-    const user = await response.json();
-    score = user.score;
-    coins = user.coins;
-    coinsPerClick = user.coinsPerClick;
-    multiplier = user.multiplier;
-    updateUI();
-  } catch (err) {
-    alert(err.message);  // Показываем ошибку
-  }
+	try {
+		const response = await fetch(`${process.env.API_URL}/user/${username}`, {
+			method: 'GET',
+			credentials: 'include',  // Включаем отправку cookies и сессионных данных
+		})
+		if (!response.ok) {
+			throw new Error('Пользователь не найден')
+		}
+		const user = await response.json()
+		score = user.score
+		coins = user.coins
+		coinsPerClick = user.coinsPerClick
+		multiplier = user.multiplier
+		updateUI()
+	} catch (err) {
+		alert(err.message)
+	}
 }
 
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		const response = await fetch('https://tapalka-rho.vercel.app/top-users')
+		const response = await fetch(`${process.env.API_URL}/top-users`, {
+			method: 'GET',
+			credentials: 'include',  // Включаем отправку cookies
+		})
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
@@ -59,7 +62,7 @@ fetchTopUsers()
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		const response = await fetch(`https://tapalka-rho.vercel.app/click/${username}`, {
+		const response = await fetch(`${process.env.API_URL}/click/${username}`, {
 			method: 'POST',
 		})
 		if (!response.ok) {
@@ -78,7 +81,7 @@ async function clickCoin() {
 async function buyClickUpgrade() {
 	try {
 		const response = await fetch(
-			`http://localhost:5000/upgrade/click/${username}`,
+			`${process.env.API_URL}/upgrade/click/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {
@@ -97,7 +100,7 @@ async function buyClickUpgrade() {
 async function buyDoubleUpgrade() {
 	try {
 		const response = await fetch(
-			`https://tapalka-rho.vercel.app/upgrade/double/${username}`,
+			`${process.env.API_URL}/upgrade/double/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {
