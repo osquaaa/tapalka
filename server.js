@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// Жестко прописанные значения для подключения к MongoDB и фронтенд-домену
+// Подключение к MongoDB через жестко прописанную строку
 const mongoURI = 'mongodb+srv://myUser:denclassik@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
 const frontendURL = 'https://tapalka-rho.vercel.app';  // Ваш продакшн фронтенд на Vercel
 
@@ -28,7 +28,7 @@ const User = mongoose.model('User', userSchema);
 
 const app = express();
 
-// Настройка CORS с жестко прописанным фронтенд-доменом
+// Настройка CORS для разрешения запросов только с вашего фронтенд-домена
 const corsOptions = {
   origin: frontendURL,  // Разрешаем доступ только с этого домена
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -127,3 +127,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
+
