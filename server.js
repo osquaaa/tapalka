@@ -30,7 +30,7 @@ const app = express();
 
 // Настройка CORS для разрешения запросов только с вашего фронтенд-домена
 const corsOptions = {
-  origin: frontendURL,  // Разрешаем доступ только с этого домена
+  origin: 'https://tapalka-rho.vercel.app',  // Разрешаем доступ только с этого домена
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,  // Разрешаем передачу cookies и сессионных данных
 };
