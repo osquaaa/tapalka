@@ -2,8 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// Подключение к MongoDB через переменные окружения
-const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://myUser:denclassik@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
+// Жестко прописанные значения для подключения к MongoDB и фронтенд-домену
+const mongoURI = 'mongodb+srv://myUser:denclassik@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
+const frontendURL = 'https://tapalka-rho.vercel.app';  // Ваш продакшн фронтенд на Vercel
+
+// Подключение к MongoDB
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
@@ -25,14 +28,14 @@ const User = mongoose.model('User', userSchema);
 
 const app = express();
 
-// Настройка CORS для продакшн-домена
+// Настройка CORS с жестко прописанным фронтенд-доменом
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'https://tapalka-rho.vercel.app', // Ваш продакшн фронтенд на Vercel
+  origin: frontendURL,  // Разрешаем доступ только с этого домена
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true, // Разрешаем передачу cookies и сессионных данных
+  credentials: true,  // Разрешаем передачу cookies и сессионных данных
 };
 
-app.use(cors(corsOptions)); // Применяем CORS
+app.use(cors(corsOptions));  // Применяем CORS
 app.use(express.json());
 
 // Маршрут для получения данных пользователя
