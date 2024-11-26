@@ -8,7 +8,7 @@ let multiplier = 1
 // Функция для обновления данных пользователя
 async function fetchUser() {
   try {
-    const response = await fetch(`http://localhost:5000/user/${username}`, {
+    const response = await fetch(`https://tapalka-rho.vercel.app/user/${username}`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -29,7 +29,7 @@ async function fetchUser() {
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		const response = await fetch('http://localhost:5000/top-users')
+		const response = await fetch('https://tapalka-rho.vercel.app/top-users')
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
@@ -59,7 +59,7 @@ fetchTopUsers()
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		const response = await fetch(`http://localhost:5000/click/${username}`, {
+		const response = await fetch(`https://tapalka-rho.vercel.app/click/${username}`, {
 			method: 'POST',
 		})
 		if (!response.ok) {
@@ -97,7 +97,7 @@ async function buyClickUpgrade() {
 async function buyDoubleUpgrade() {
 	try {
 		const response = await fetch(
-			`http://localhost:5000/upgrade/double/${username}`,
+			`https://tapalka-rho.vercel.app/upgrade/double/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {
