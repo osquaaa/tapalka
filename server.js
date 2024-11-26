@@ -41,15 +41,20 @@ app.use(express.json());
 // Маршрут для получения данных пользователя
 app.get('/user/:username', async (req, res) => {
   const { username } = req.params;
+  
+  // Ищем пользователя в базе данных
   let user = await User.findOne({ username });
 
   if (!user) {
+    // Если пользователь не найден, создаем нового
     user = new User({ username });
     await user.save();
   }
 
+  // Возвращаем данные пользователя
   res.json(user);
 });
+
 
 // Маршрут для обработки кликов
 app.post('/click/:username', async (req, res) => {
