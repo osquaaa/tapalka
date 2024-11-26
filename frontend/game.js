@@ -8,7 +8,7 @@ let multiplier = 1
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
-		const response = await fetch(`http://localhost:5000/user/${username}`)
+		const response = await fetch(`/api/user?username=${username}`)
 		if (!response.ok) {
 			throw new Error('Пользователь не найден')
 		}
@@ -22,15 +22,16 @@ async function fetchUser() {
 		alert(err.message)
 	}
 }
+
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		const response = await fetch('http://localhost:5000/top-users')
+		const response = await fetch('/api/top-users')
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
 		const users = await response.json()
-		displayTopUsers(users) // Обновляем интерфейс с топом
+		displayTopUsers(users)
 	} catch (err) {
 		alert(err.message)
 	}
@@ -40,8 +41,6 @@ async function fetchTopUsers() {
 function displayTopUsers(users) {
 	const topUsersList = document.getElementById('top-users')
 	topUsersList.innerHTML = '' // Очищаем текущий список
-
-	// Для каждого пользователя из топа создаем строку
 	users.forEach(user => {
 		const userElement = document.createElement('p')
 		userElement.textContent = `${user.username}: ${user.score} очков`
@@ -49,13 +48,10 @@ function displayTopUsers(users) {
 	})
 }
 
-// Загружаем топ пользователей при загрузке страницы
-fetchTopUsers()
-
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		const response = await fetch(`http://localhost:5000/click/${username}`, {
+		const response = await fetch(`/api/user?username=${username}`, {
 			method: 'POST',
 		})
 		if (!response.ok) {
@@ -70,13 +66,12 @@ async function clickCoin() {
 	}
 }
 
-// Функция для покупки +1 к монетам за клик
+// Функция для покупки улучшений
 async function buyClickUpgrade() {
 	try {
-		const response = await fetch(
-			`http://localhost:5000/upgrade/click/${username}`,
-			{ method: 'POST' }
-		)
+		const response = await fetch(`/api/upgrade/click/${username}`, {
+			method: 'POST',
+		})
 		if (!response.ok) {
 			const data = await response.json()
 			throw new Error(data.message || 'Ошибка при покупке улучшения')
@@ -89,26 +84,7 @@ async function buyClickUpgrade() {
 	}
 }
 
-// Функция для покупки удвоения монет за клик
-async function buyDoubleUpgrade() {
-	try {
-		const response = await fetch(
-			`http://localhost:5000/upgrade/double/${username}`,
-			{ method: 'POST' }
-		)
-		if (!response.ok) {
-			const data = await response.json()
-			throw new Error(data.message || 'Ошибка при покупке улучшения')
-		}
-		const data = await response.json()
-		alert(data.message)
-		fetchUser() // Обновляем данные пользователя после покупки
-	} catch (err) {
-		alert(err.message)
-	}
-}
-
-// Функция обновления интерфейса
+// Обновление интерфейса
 function updateUI() {
 	document.getElementById('score').textContent = `Счет: ${score}`
 	document.getElementById('coins').textContent = `Монеты: ${coins}`
@@ -127,7 +103,8 @@ document
 	.addEventListener('click', buyClickUpgrade)
 document
 	.getElementById('upgrade-double')
-	.addEventListener('click', buyDoubleUpgrade)
+	.addEventListener('click', buyClickUpgrade)
 
-// Загрузка данных пользователя при входе
+// Загружаем данные пользователя и топ пользователей при загрузке страницы
 fetchUser()
+fetchTopUsers()
