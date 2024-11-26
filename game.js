@@ -8,7 +8,7 @@ let multiplier = 1
 // Функция для обновления данных пользователя
 async function fetchUser() {
   try {
-    const response = await fetch(`https://your-backend-service.onrender.com/user/${username}`, {
+    const response = await fetch(`http://localhost:5000/user/${username}`, {
       method: 'GET',
       credentials: 'include',
     });
