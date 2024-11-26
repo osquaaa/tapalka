@@ -7,21 +7,25 @@ let multiplier = 1
 
 // Функция для обновления данных пользователя
 async function fetchUser() {
-	try {
-		const response = await fetch(`http://localhost:5000/user/${username}`)
-		if (!response.ok) {
-			throw new Error('Пользователь не найден')
-		}
-		const user = await response.json()
-		score = user.score
-		coins = user.coins
-		coinsPerClick = user.coinsPerClick
-		multiplier = user.multiplier
-		updateUI()
-	} catch (err) {
-		alert(err.message)
-	}
+  try {
+    const response = await fetch(`https://your-backend-service.onrender.com/user/${username}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      throw new Error('Пользователь не найден');
+    }
+    const user = await response.json();
+    score = user.score;
+    coins = user.coins;
+    coinsPerClick = user.coinsPerClick;
+    multiplier = user.multiplier;
+    updateUI();
+  } catch (err) {
+    alert(err.message);  // Показываем ошибку
+  }
 }
+
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
