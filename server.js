@@ -27,6 +27,7 @@ const corsOptions = {
   methods: ['GET', 'POST'],
   credentials: true,  // Разрешаем использование cookies
 };
+app.use(cors(corsOptions));
 const User = mongoose.model('User', userSchema)
 
 const app = express()
