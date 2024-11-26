@@ -2,15 +2,13 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-// Подключение к MongoDB Atlas
+// Подключение к MongoDB Atlas через переменную окружения
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose
-	.connect(
-		'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}
-	)
+	.connect(mongoURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 	.then(() => console.log('Подключение к базе данных успешно установлено'))
 	.catch(err => console.error('Ошибка подключения к базе данных:', err))
 
@@ -22,16 +20,19 @@ const userSchema = new mongoose.Schema({
 	coinsPerClick: { type: Number, default: 1 },
 	multiplier: { type: Number, default: 1 },
 })
-const corsOptions = {
-  origin: 'https://tapalka-rho.vercel.app',  // Ваш фронтенд домен
-  methods: ['GET', 'POST'],
-  credentials: true,  // Разрешаем использование cookies
-};
-app.use(cors(corsOptions));
+
 const User = mongoose.model('User', userSchema)
 
 const app = express()
-app.use(cors())
+
+// Настройка CORS для продакшн-домена
+const corsOptions = {
+	origin: process.env.FRONTEND_URL || 'https://tapalka-rho.vercel.app',  // Указываем URL вашего фронтенда на Vercel
+	methods: ['GET', 'POST', 'PUT', 'DELETE'],
+	credentials: true,  // Разрешаем передачу cookies и сессионных данных
+}
+
+app.use(cors(corsOptions))  // Применяем CORS
 app.use(express.json())
 
 // Маршрут для получения данных пользователя
@@ -74,9 +75,7 @@ app.post('/upgrade/click/:username', async (req, res) => {
 
 	const upgradePrice = user.coinsPerClick * 100
 	if (user.coins < upgradePrice) {
-		return res
-			.status(400)
-			.json({ message: 'Недостаточно монет для покупки улучшения' })
+		return res.status(400).json({ message: 'Недостаточно монет для покупки улучшения' })
 	}
 
 	user.coins -= upgradePrice
@@ -97,9 +96,7 @@ app.post('/upgrade/double/:username', async (req, res) => {
 
 	const upgradePrice = user.multiplier * 10000
 	if (user.coins < upgradePrice) {
-		return res
-			.status(400)
-			.json({ message: 'Недостаточно монет для покупки улучшения' })
+		return res.status(400).json({ message: 'Недостаточно монет для покупки улучшения' })
 	}
 
 	user.coins -= upgradePrice
@@ -108,6 +105,7 @@ app.post('/upgrade/double/:username', async (req, res) => {
 
 	res.json({ message: 'Улучшение успешно куплено', user })
 })
+
 // Маршрут для получения топа пользователей (по убыванию счета)
 app.get('/top-users', async (req, res) => {
 	try {
@@ -122,7 +120,8 @@ app.get('/top-users', async (req, res) => {
 })
 
 // Запуск сервера
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-	console.log(`Сервер запущен на http://localhost:${PORT}`)
+	console.log(`Сервер запущен на порту ${PORT}`)
 })
+
