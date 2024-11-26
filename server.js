@@ -1,127 +1,126 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
-// Подключение к MongoDB Atlas через переменную окружения
-const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// Подключение к MongoDB через переменные окружения
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://myUser:denclassik@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
 mongoose
-	.connect(mongoURI, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() => console.log('Подключение к базе данных успешно установлено'))
-	.catch(err => console.error('Ошибка подключения к базе данных:', err))
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Подключение к базе данных успешно установлено'))
+  .catch(err => console.error('Ошибка подключения к базе данных:', err));
 
 // Определение схемы и модели пользователя
 const userSchema = new mongoose.Schema({
-	username: String,
-	score: { type: Number, default: 0 },
-	coins: { type: Number, default: 0 },
-	coinsPerClick: { type: Number, default: 1 },
-	multiplier: { type: Number, default: 1 },
-})
+  username: String,
+  score: { type: Number, default: 0 },
+  coins: { type: Number, default: 0 },
+  coinsPerClick: { type: Number, default: 1 },
+  multiplier: { type: Number, default: 1 },
+});
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
-const app = express()
+const app = express();
 
 // Настройка CORS для продакшн-домена
 const corsOptions = {
-	origin: process.env.FRONTEND_URL || 'https://tapalka-rho.vercel.app',  // Указываем URL вашего фронтенда на Vercel
-	methods: ['GET', 'POST', 'PUT', 'DELETE'],
-	credentials: true,  // Разрешаем передачу cookies и сессионных данных
-}
+  origin: process.env.FRONTEND_URL || 'https://tapalka-rho.vercel.app', // Ваш продакшн фронтенд на Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // Разрешаем передачу cookies и сессионных данных
+};
 
-app.use(cors(corsOptions))  // Применяем CORS
-app.use(express.json())
+app.use(cors(corsOptions)); // Применяем CORS
+app.use(express.json());
 
 // Маршрут для получения данных пользователя
 app.get('/user/:username', async (req, res) => {
-	const { username } = req.params
-	let user = await User.findOne({ username })
+  const { username } = req.params;
+  let user = await User.findOne({ username });
 
-	if (!user) {
-		user = new User({ username })
-		await user.save()
-	}
+  if (!user) {
+    user = new User({ username });
+    await user.save();
+  }
 
-	res.json(user)
-})
+  res.json(user);
+});
 
 // Маршрут для обработки кликов
 app.post('/click/:username', async (req, res) => {
-	const { username } = req.params
-	const user = await User.findOne({ username })
+  const { username } = req.params;
+  const user = await User.findOne({ username });
 
-	if (!user) {
-		return res.status(404).json({ message: 'Пользователь не найден' })
-	}
+  if (!user) {
+    return res.status(404).json({ message: 'Пользователь не найден' });
+  }
 
-	user.score += user.coinsPerClick * user.multiplier
-	user.coins += user.coinsPerClick
-	await user.save()
+  user.score += user.coinsPerClick * user.multiplier;
+  user.coins += user.coinsPerClick;
+  await user.save();
 
-	res.json(user)
-})
+  res.json(user);
+});
 
 // Маршрут для покупки улучшения +1 к монетам за клик
 app.post('/upgrade/click/:username', async (req, res) => {
-	const { username } = req.params
-	const user = await User.findOne({ username })
+  const { username } = req.params;
+  const user = await User.findOne({ username });
 
-	if (!user) {
-		return res.status(404).json({ message: 'Пользователь не найден' })
-	}
+  if (!user) {
+    return res.status(404).json({ message: 'Пользователь не найден' });
+  }
 
-	const upgradePrice = user.coinsPerClick * 100
-	if (user.coins < upgradePrice) {
-		return res.status(400).json({ message: 'Недостаточно монет для покупки улучшения' })
-	}
+  const upgradePrice = user.coinsPerClick * 100;
+  if (user.coins < upgradePrice) {
+    return res.status(400).json({ message: 'Недостаточно монет для покупки улучшения' });
+  }
 
-	user.coins -= upgradePrice
-	user.coinsPerClick += 1
-	await user.save()
+  user.coins -= upgradePrice;
+  user.coinsPerClick += 1;
+  await user.save();
 
-	res.json({ message: 'Улучшение успешно куплено', user })
-})
+  res.json({ message: 'Улучшение успешно куплено', user });
+});
 
 // Маршрут для покупки удвоения монет за клик
 app.post('/upgrade/double/:username', async (req, res) => {
-	const { username } = req.params
-	const user = await User.findOne({ username })
+  const { username } = req.params;
+  const user = await User.findOne({ username });
 
-	if (!user) {
-		return res.status(404).json({ message: 'Пользователь не найден' })
-	}
+  if (!user) {
+    return res.status(404).json({ message: 'Пользователь не найден' });
+  }
 
-	const upgradePrice = user.multiplier * 10000
-	if (user.coins < upgradePrice) {
-		return res.status(400).json({ message: 'Недостаточно монет для покупки улучшения' })
-	}
+  const upgradePrice = user.multiplier * 10000;
+  if (user.coins < upgradePrice) {
+    return res.status(400).json({ message: 'Недостаточно монет для покупки улучшения' });
+  }
 
-	user.coins -= upgradePrice
-	user.multiplier *= 2
-	await user.save()
+  user.coins -= upgradePrice;
+  user.multiplier *= 2;
+  await user.save();
 
-	res.json({ message: 'Улучшение успешно куплено', user })
-})
+  res.json({ message: 'Улучшение успешно куплено', user });
+});
 
 // Маршрут для получения топа пользователей (по убыванию счета)
 app.get('/top-users', async (req, res) => {
-	try {
-		const topUsers = await User.find()
-			.sort({ score: -1 }) // Сортировка по убыванию счета
-			.limit(10) // Ограничение до 10 пользователей
+  try {
+    const topUsers = await User.find()
+      .sort({ score: -1 }) // Сортировка по убыванию счета
+      .limit(10); // Ограничение до 10 пользователей
 
-		res.json(topUsers)
-	} catch (err) {
-		res.status(500).json({ message: 'Ошибка при получении топа пользователей' })
-	}
-})
+    res.json(topUsers);
+  } catch (err) {
+    res.status(500).json({ message: 'Ошибка при получении топа пользователей' });
+  }
+});
 
 // Запуск сервера
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-	console.log(`Сервер запущен на порту ${PORT}`)
-})
-
+  console.log(`Сервер запущен на порту ${PORT}`);
+});
