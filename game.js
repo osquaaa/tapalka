@@ -112,7 +112,7 @@ async function buyDoubleUpgrade() {
 
 // Функция обновления интерфейса
 function updateUI() {
-	document.getElementById('score').textContent = `Счет: ${score}`
+	document.getElementById('score').textContent = `Очков: ${score}`
 	document.getElementById('coins').textContent = `Монеты: ${coins}`
 	document.getElementById('upgrade-click').textContent = `+1 К КЛИКУ (${
 		coinsPerClick * 100
