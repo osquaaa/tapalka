@@ -2,15 +2,22 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
+const app = express()
+app.use(cors())
+app.use(express.json())
+
+// Get MongoDB connection URI and port from environment variables
+const mongoURI =
+	process.env.MONGODB_URI ||
+	'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' // Use environment variable for MongoDB URI
+const PORT = process.env.PORT || 5000 // Render assigns a dynamic port
+
 // Подключение к MongoDB Atlas
 mongoose
-	.connect(
-		'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}
-	)
+	.connect(mongoURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 	.then(() => console.log('Подключение к базе данных успешно установлено'))
 	.catch(err => console.error('Ошибка подключения к базе данных:', err))
 
@@ -24,10 +31,6 @@ const userSchema = new mongoose.Schema({
 })
 
 const User = mongoose.model('User', userSchema)
-
-const app = express()
-app.use(cors())
-app.use(express.json())
 
 // Маршрут для получения данных пользователя
 app.get('/user/:username', async (req, res) => {
@@ -103,6 +106,7 @@ app.post('/upgrade/double/:username', async (req, res) => {
 
 	res.json({ message: 'Улучшение успешно куплено', user })
 })
+
 // Маршрут для получения топа пользователей (по убыванию счета)
 app.get('/top-users', async (req, res) => {
 	try {
@@ -117,7 +121,6 @@ app.get('/top-users', async (req, res) => {
 })
 
 // Запуск сервера
-const PORT = 5000
 app.listen(PORT, () => {
 	console.log(`Сервер запущен на http://localhost:${PORT}`)
 })
