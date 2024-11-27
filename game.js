@@ -8,10 +8,7 @@ let multiplier = 1
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
-		// Замените URL на адрес вашего сервера на Render или другом хостинге
-		const response = await fetch(
-			`https://your-app-name.onrender.com/user/${username}`
-		)
+		const response = await fetch(`http://localhost:5000/user/${username}`)
 		if (!response.ok) {
 			throw new Error('Пользователь не найден')
 		}
@@ -25,12 +22,10 @@ async function fetchUser() {
 		alert(err.message)
 	}
 }
-
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		// Замените URL на адрес вашего сервера на Render или другом хостинге
-		const response = await fetch('https://your-app-name.onrender.com/top-users')
+		const response = await fetch('http://localhost:5000/top-users')
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
@@ -60,13 +55,9 @@ fetchTopUsers()
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		// Замените URL на адрес вашего сервера на Render или другом хостинге
-		const response = await fetch(
-			`https://your-app-name.onrender.com/click/${username}`,
-			{
-				method: 'POST',
-			}
-		)
+		const response = await fetch(`http://localhost:5000/click/${username}`, {
+			method: 'POST',
+		})
 		if (!response.ok) {
 			throw new Error('Ошибка при обработке клика')
 		}
@@ -82,9 +73,8 @@ async function clickCoin() {
 // Функция для покупки +1 к монетам за клик
 async function buyClickUpgrade() {
 	try {
-		// Замените URL на адрес вашего сервера на Render или другом хостинге
 		const response = await fetch(
-			`https://your-app-name.onrender.com/upgrade/click/${username}`,
+			`http://localhost:5000/upgrade/click/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {
@@ -102,9 +92,8 @@ async function buyClickUpgrade() {
 // Функция для покупки удвоения монет за клик
 async function buyDoubleUpgrade() {
 	try {
-		// Замените URL на адрес вашего сервера на Render или другом хостинге
 		const response = await fetch(
-			`https://your-app-name.onrender.com/upgrade/double/${username}`,
+			`http://localhost:5000/upgrade/double/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {

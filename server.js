@@ -103,7 +103,6 @@ app.post('/upgrade/double/:username', async (req, res) => {
 
 	res.json({ message: 'Улучшение успешно куплено', user })
 })
-
 // Маршрут для получения топа пользователей (по убыванию счета)
 app.get('/top-users', async (req, res) => {
 	try {
@@ -118,7 +117,7 @@ app.get('/top-users', async (req, res) => {
 })
 
 // Запуск сервера
-const PORT = process.env.PORT || 5000
+const PORT = 5000
 app.listen(PORT, () => {
 	console.log(`Сервер запущен на http://localhost:${PORT}`)
 })
