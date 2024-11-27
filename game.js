@@ -1,4 +1,5 @@
-const username = prompt('Введите ваше имя пользователя:') || 'guest'
+const username = prompt('Введите вашу почту:') || 'guest'
+
 
 let score = 0
 let coins = 0
