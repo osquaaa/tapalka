@@ -5,7 +5,7 @@ let coins = 0
 let coinsPerClick = 1
 let multiplier = 1
 
-const apiUrl = 'https://tapalka-ql2s.onrender.com' // Ваш адрес на Render
+const apiUrl = 'https://tapalka-arqm.onrender.com' // Ваш адрес на Render
 
 // Функция для обновления данных пользователя
 async function fetchUser() {
