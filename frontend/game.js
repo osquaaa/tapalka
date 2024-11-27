@@ -69,7 +69,7 @@ async function clickCoin() {
 // Функция для покупки улучшений
 async function buyClickUpgrade() {
 	try {
-		const response = await fetch(`/api/upgrade/click/${username}`, {
+		const response = await fetch(`./api/upgrade/click/${username}`, {
 			method: 'POST',
 		})
 		if (!response.ok) {
