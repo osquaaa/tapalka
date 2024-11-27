@@ -5,13 +5,12 @@ let coins = 0
 let coinsPerClick = 1
 let multiplier = 1
 
-// Get base URL from environment variable or fallback to localhost
-const baseUrl = process.env.API_URL || 'http://localhost:5000'
-
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
-		const response = await fetch(`${baseUrl}/user/${username}`)
+		const response = await fetch(
+			`https://tapalka-ql2s.onrender.com/user/${username}`
+		)
 		if (!response.ok) {
 			throw new Error('Пользователь не найден')
 		}
@@ -28,7 +27,7 @@ async function fetchUser() {
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		const response = await fetch(`${baseUrl}/top-users`)
+		const response = await fetch('https://tapalka-ql2s.onrender.com/top-users')
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
@@ -58,9 +57,12 @@ fetchTopUsers()
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		const response = await fetch(`${baseUrl}/click/${username}`, {
-			method: 'POST',
-		})
+		const response = await fetch(
+			`https://tapalka-ql2s.onrender.com/click/${username}`,
+			{
+				method: 'POST',
+			}
+		)
 		if (!response.ok) {
 			throw new Error('Ошибка при обработке клика')
 		}
@@ -76,9 +78,10 @@ async function clickCoin() {
 // Функция для покупки +1 к монетам за клик
 async function buyClickUpgrade() {
 	try {
-		const response = await fetch(`${baseUrl}/upgrade/click/${username}`, {
-			method: 'POST',
-		})
+		const response = await fetch(
+			`https://tapalka-ql2s.onrender.com/upgrade/click/${username}`,
+			{ method: 'POST' }
+		)
 		if (!response.ok) {
 			const data = await response.json()
 			throw new Error(data.message || 'Ошибка при покупке улучшения')
@@ -94,9 +97,10 @@ async function buyClickUpgrade() {
 // Функция для покупки удвоения монет за клик
 async function buyDoubleUpgrade() {
 	try {
-		const response = await fetch(`${baseUrl}/upgrade/double/${username}`, {
-			method: 'POST',
-		})
+		const response = await fetch(
+			`https://tapalka-ql2s.onrender.com/upgrade/double/${username}`,
+			{ method: 'POST' }
+		)
 		if (!response.ok) {
 			const data = await response.json()
 			throw new Error(data.message || 'Ошибка при покупке улучшения')
