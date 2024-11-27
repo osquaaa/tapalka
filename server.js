@@ -118,7 +118,6 @@ app.get('/top-users', async (req, res) => {
 })
 
 // Динамический порт, предоставленный Render
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-	console.log(`Сервер запущен на порту ${PORT}`)
+app.listen(process.env.PORT || 5000, () => {
+	console.log('Сервер запущен')
 })
