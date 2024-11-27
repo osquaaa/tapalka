@@ -29,6 +29,11 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+app.use(express.static(__dirname))
+app.get('/', (req, res) => {
+	res.sendFile(__dirname + '/index.html') // Убедитесь, что файл существует
+})
+
 // Роут для получения данных пользователя
 app.get('/user/:username', async (req, res) => {
 	const { username } = req.params
@@ -118,6 +123,6 @@ app.get('/top-users', async (req, res) => {
 })
 
 // Динамический порт, предоставленный Render
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 10000, () => {
 	console.log('Сервер запущен')
 })
