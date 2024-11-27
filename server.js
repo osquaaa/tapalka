@@ -2,17 +2,10 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-
-// Get MongoDB connection URI and port from environment variables
+// Подключение к MongoDB Atlas (замените ваш URI)
 const mongoURI =
-	process.env.MONGODB_URI ||
-	'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' // Use environment variable for MongoDB URI
-const PORT = process.env.PORT || 5000 // Render assigns a dynamic port
+	'mongodb+srv://myUser:denclassik@cluster0.1jt61.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
-// Подключение к MongoDB Atlas
 mongoose
 	.connect(mongoURI, {
 		useNewUrlParser: true,
@@ -32,7 +25,11 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema)
 
-// Маршрут для получения данных пользователя
+const app = express()
+app.use(cors())
+app.use(express.json())
+
+// Роут для получения данных пользователя
 app.get('/user/:username', async (req, res) => {
 	const { username } = req.params
 	let user = await User.findOne({ username })
@@ -45,7 +42,7 @@ app.get('/user/:username', async (req, res) => {
 	res.json(user)
 })
 
-// Маршрут для обработки кликов
+// Роут для обработки кликов
 app.post('/click/:username', async (req, res) => {
 	const { username } = req.params
 	const user = await User.findOne({ username })
@@ -61,7 +58,7 @@ app.post('/click/:username', async (req, res) => {
 	res.json(user)
 })
 
-// Маршрут для покупки улучшения +1 к монетам за клик
+// Роут для покупки улучшения +1 к монетам за клик
 app.post('/upgrade/click/:username', async (req, res) => {
 	const { username } = req.params
 	const user = await User.findOne({ username })
@@ -84,7 +81,7 @@ app.post('/upgrade/click/:username', async (req, res) => {
 	res.json({ message: 'Улучшение успешно куплено', user })
 })
 
-// Маршрут для покупки удвоения монет за клик
+// Роут для покупки удвоения монет за клик
 app.post('/upgrade/double/:username', async (req, res) => {
 	const { username } = req.params
 	const user = await User.findOne({ username })
@@ -107,7 +104,7 @@ app.post('/upgrade/double/:username', async (req, res) => {
 	res.json({ message: 'Улучшение успешно куплено', user })
 })
 
-// Маршрут для получения топа пользователей (по убыванию счета)
+// Роут для получения топа пользователей (по убыванию счета)
 app.get('/top-users', async (req, res) => {
 	try {
 		const topUsers = await User.find()
@@ -120,7 +117,8 @@ app.get('/top-users', async (req, res) => {
 	}
 })
 
-// Запуск сервера
+// Динамический порт, предоставленный Render
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-	console.log(`Сервер запущен на http://localhost:${PORT}`)
+	console.log(`Сервер запущен на порту ${PORT}`)
 })
