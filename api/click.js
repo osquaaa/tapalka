@@ -20,12 +20,15 @@ const User = mongoose.model(
 
 module.exports = async (req, res) => {
 	const { username } = req.query
-	let user = await User.findOne({ username })
+	const user = await User.findOne({ username })
 
 	if (!user) {
-		user = new User({ username })
-		await user.save()
+		return res.status(404).json({ message: 'Пользователь не найден' })
 	}
+
+	user.score += user.coinsPerClick * user.multiplier
+	user.coins += user.coinsPerClick
+	await user.save()
 
 	res.status(200).json(user)
 }

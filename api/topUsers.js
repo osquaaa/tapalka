@@ -19,13 +19,10 @@ const User = mongoose.model(
 )
 
 module.exports = async (req, res) => {
-	const { username } = req.query
-	let user = await User.findOne({ username })
-
-	if (!user) {
-		user = new User({ username })
-		await user.save()
+	try {
+		const topUsers = await User.find().sort({ score: -1 }).limit(10)
+		res.status(200).json(topUsers)
+	} catch (err) {
+		res.status(500).json({ message: 'Ошибка при получении топа пользователей' })
 	}
-
-	res.status(200).json(user)
 }

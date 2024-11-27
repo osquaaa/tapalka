@@ -20,12 +20,22 @@ const User = mongoose.model(
 
 module.exports = async (req, res) => {
 	const { username } = req.query
-	let user = await User.findOne({ username })
+	const user = await User.findOne({ username })
 
 	if (!user) {
-		user = new User({ username })
-		await user.save()
+		return res.status(404).json({ message: 'Пользователь не найден' })
 	}
 
-	res.status(200).json(user)
+	const upgradePrice = user.multiplier * 10000
+	if (user.coins < upgradePrice) {
+		return res
+			.status(400)
+			.json({ message: 'Недостаточно монет для покупки улучшения' })
+	}
+
+	user.coins -= upgradePrice
+	user.multiplier *= 2
+	await user.save()
+
+	res.status(200).json({ message: 'Улучшение успешно куплено', user })
 }

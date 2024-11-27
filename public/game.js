@@ -5,10 +5,13 @@ let coins = 0
 let coinsPerClick = 1
 let multiplier = 1
 
+// URL для API запросов (замените на URL вашего развернутого проекта на Vercel)
+const API_URL = 'https://spasskkombat.vercel.app/api'
+
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
-		const response = await fetch(`/api/user?username=${username}`)
+		const response = await fetch(`${API_URL}/user?username=${username}`)
 		if (!response.ok) {
 			throw new Error('Пользователь не найден')
 		}
@@ -26,12 +29,12 @@ async function fetchUser() {
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		const response = await fetch('/api/top-users')
+		const response = await fetch(`${API_URL}/top-users`)
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
 		const users = await response.json()
-		displayTopUsers(users)
+		displayTopUsers(users) // Обновляем интерфейс с топом
 	} catch (err) {
 		alert(err.message)
 	}
@@ -41,6 +44,8 @@ async function fetchTopUsers() {
 function displayTopUsers(users) {
 	const topUsersList = document.getElementById('top-users')
 	topUsersList.innerHTML = '' // Очищаем текущий список
+
+	// Для каждого пользователя из топа создаем строку
 	users.forEach(user => {
 		const userElement = document.createElement('p')
 		userElement.textContent = `${user.username}: ${user.score} очков`
@@ -48,10 +53,13 @@ function displayTopUsers(users) {
 	})
 }
 
+// Загружаем топ пользователей при загрузке страницы
+fetchTopUsers()
+
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		const response = await fetch(`/api/user?username=${username}`, {
+		const response = await fetch(`${API_URL}/click?username=${username}`, {
 			method: 'POST',
 		})
 		if (!response.ok) {
@@ -66,12 +74,13 @@ async function clickCoin() {
 	}
 }
 
-// Функция для покупки улучшений
+// Функция для покупки +1 к монетам за клик
 async function buyClickUpgrade() {
 	try {
-		const response = await fetch(`./api/upgrade/click/${username}`, {
-			method: 'POST',
-		})
+		const response = await fetch(
+			`${API_URL}/upgrade/click?username=${username}`,
+			{ method: 'POST' }
+		)
 		if (!response.ok) {
 			const data = await response.json()
 			throw new Error(data.message || 'Ошибка при покупке улучшения')
@@ -84,7 +93,26 @@ async function buyClickUpgrade() {
 	}
 }
 
-// Обновление интерфейса
+// Функция для покупки удвоения монет за клик
+async function buyDoubleUpgrade() {
+	try {
+		const response = await fetch(
+			`${API_URL}/upgrade/double?username=${username}`,
+			{ method: 'POST' }
+		)
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.message || 'Ошибка при покупке улучшения')
+		}
+		const data = await response.json()
+		alert(data.message)
+		fetchUser() // Обновляем данные пользователя после покупки
+	} catch (err) {
+		alert(err.message)
+	}
+}
+
+// Функция обновления интерфейса
 function updateUI() {
 	document.getElementById('score').textContent = `Счет: ${score}`
 	document.getElementById('coins').textContent = `Монеты: ${coins}`
@@ -103,8 +131,7 @@ document
 	.addEventListener('click', buyClickUpgrade)
 document
 	.getElementById('upgrade-double')
-	.addEventListener('click', buyClickUpgrade)
+	.addEventListener('click', buyDoubleUpgrade)
 
-// Загружаем данные пользователя и топ пользователей при загрузке страницы
+// Загрузка данных пользователя при входе
 fetchUser()
-fetchTopUsers()
