@@ -5,13 +5,13 @@ let coins = 0
 let coinsPerClick = 1
 let multiplier = 1
 
-// URL для API запросов (замените на URL вашего развернутого проекта на Vercel)
-const API_URL = 'https://spasskkombat.vercel.app/api'
-
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
-		const response = await fetch(`${API_URL}/user?username=${username}`)
+		// Замените URL на адрес вашего сервера на Render или другом хостинге
+		const response = await fetch(
+			`https://your-app-name.onrender.com/user/${username}`
+		)
 		if (!response.ok) {
 			throw new Error('Пользователь не найден')
 		}
@@ -29,7 +29,8 @@ async function fetchUser() {
 // Функция для получения топа пользователей
 async function fetchTopUsers() {
 	try {
-		const response = await fetch(`${API_URL}/top-users`)
+		// Замените URL на адрес вашего сервера на Render или другом хостинге
+		const response = await fetch('https://your-app-name.onrender.com/top-users')
 		if (!response.ok) {
 			throw new Error('Ошибка при получении топа пользователей')
 		}
@@ -59,9 +60,13 @@ fetchTopUsers()
 // Функция для клика по монете
 async function clickCoin() {
 	try {
-		const response = await fetch(`${API_URL}/click?username=${username}`, {
-			method: 'POST',
-		})
+		// Замените URL на адрес вашего сервера на Render или другом хостинге
+		const response = await fetch(
+			`https://your-app-name.onrender.com/click/${username}`,
+			{
+				method: 'POST',
+			}
+		)
 		if (!response.ok) {
 			throw new Error('Ошибка при обработке клика')
 		}
@@ -77,8 +82,9 @@ async function clickCoin() {
 // Функция для покупки +1 к монетам за клик
 async function buyClickUpgrade() {
 	try {
+		// Замените URL на адрес вашего сервера на Render или другом хостинге
 		const response = await fetch(
-			`${API_URL}/upgrade/click?username=${username}`,
+			`https://your-app-name.onrender.com/upgrade/click/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {
@@ -96,8 +102,9 @@ async function buyClickUpgrade() {
 // Функция для покупки удвоения монет за клик
 async function buyDoubleUpgrade() {
 	try {
+		// Замените URL на адрес вашего сервера на Render или другом хостинге
 		const response = await fetch(
-			`${API_URL}/upgrade/double?username=${username}`,
+			`https://your-app-name.onrender.com/upgrade/double/${username}`,
 			{ method: 'POST' }
 		)
 		if (!response.ok) {
