@@ -155,9 +155,11 @@
 			}
 			#greeting {
 				color: #fff;
-				margin-bottom: 10px;
 				font-family: jura;
 				font-weight: 900;
+			}
+			#logout-btn {
+				padding: 5px;
 			}
 		</style>
 	</head>
@@ -166,7 +168,12 @@
 
 		<!-- Элемент для отображения приветствия -->
 		<h1>SPASSK<span>KOMBAT</span></h1>
+		<!-- Приветствие пользователя -->
 		<div id="greeting"></div>
+
+		<!-- Кнопка выхода -->
+		<button id="logout-btn">Выход</button>
+
 		<div id="coin" noselect></div>
 		<div id="stats">
 			<p id="score">Очков: 0</p>
@@ -190,4 +197,5 @@
 		<script src="game.js"></script>
 	</body>
 </html>
+
 
