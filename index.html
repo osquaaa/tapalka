@@ -20,16 +20,39 @@
 
 			body {
 				text-align: center;
-				background: linear-gradient(135deg, #6a0dad, #9b4e97, #b97bff);
+				background: #000;
 				height: 100%;
 				margin: 0;
 
 				font-family: 'Unbounded', serif;
 			}
+			/* Стили для точек на фоне */
+			#background-dots {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Чтобы точки не мешали кликам по другим элементам */
+  z-index: -1; /* Чтобы точки были на фоне */
+  overflow: hidden;
+}
+
+.dot {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: moveDots 50s linear infinite, fadeIn 2s ease-in-out forwards; /* Добавляем анимацию появления и движения */
+  will-change: transform, opacity; /* Для улучшения производительности */
+}
+
+/* Анимация для медленного движения точек */
+
 			#coin {
 				width: 210px;
 				height: 210px;
-				background-color: #ffffff57;
+				background-color: #ffffff38;
 				backdrop-filter: blur(30px);
 				cursor: pointer;
 				margin: 0 auto;
@@ -56,9 +79,9 @@
 				margin: 10px;
 				padding: 10px 20px;
 				font-size: 16px;
-				background-color: #2f074b;
+				background-color: #ffffff;
 				border: none;
-				color: #fff;
+				color: #000000;
 				border: 1px solid #fff;
 				font-weight: 700;
 			}
@@ -81,29 +104,30 @@
 				margin: 5px 0;
 			}
 			h1 span {
-				color: #fff;
+				color: #bfbfbf;
 			}
 			h1 {
-				color: #a19dff;
+				color: #ffffff;
 			}
 			h2 {
-				color: #fff;
+				color: #d7d7d7;
 			}
-			.prize-sub{
+			.prize-sub {
 				font-size: 12px;
-				color: #2f074b;
+				color: #d4d4d4;
 				font-family: sans-serif;
 				font-weight: 900;
 				padding-left: 10px;
 				padding-right: 10px;
 			}
-			.my-email{
+			.my-email {
 				color: #fff;
 				font-size: 14px;
 			}
 		</style>
 	</head>
 	<body>
+		<div id="background-dots"></div>
 		<h1>SPASSK<span>KOMBAT</span></h1>
 		<div id="coin" noselect></div>
 		<div id="stats">
