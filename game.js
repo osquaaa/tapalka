@@ -82,18 +82,23 @@ function displayTopUsers(users) {
 	users.forEach((user, index) => {
 		const userElement = document.createElement('p')
 
-		// Определяем класс для топ-3
+		// Определяем класс для топ-3 и добавляем соответствующие суммы
+		let prizeText = ''
 		if (index === 0) {
 			userElement.classList.add('top-user', 'gold') // Золото для первого места
+			prizeText = '(500 руб)'
 		} else if (index === 1) {
 			userElement.classList.add('top-user', 'silver') // Серебро для второго места
+			prizeText = '(250 руб)'
 		} else if (index === 2) {
 			userElement.classList.add('top-user', 'bronze') // Бронза для третьего места
+			prizeText = '(250 руб)'
 		} else {
 			userElement.classList.add('top-user') // Для остальных пользователей обычный стиль
 		}
 
-		userElement.textContent = `${user.username}: ${user.score} очков`
+		// Добавляем текст и сумму
+		userElement.innerHTML = `${user.username}: ${user.score} очков <span class="prize">${prizeText}</span>`
 		topUsersList.appendChild(userElement)
 	})
 }
