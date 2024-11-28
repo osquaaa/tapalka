@@ -179,3 +179,12 @@ document
 // Загрузка данных пользователя при входе
 fetchUser()
 
+// Обработчик для кнопки выхода
+document.getElementById('logout-btn').addEventListener('click', function () {
+	// Удаляем username из localStorage
+	localStorage.removeItem('username')
+
+	// Перезагружаем страницу, чтобы пользователь снова ввел имя
+	location.reload()
+})
+
