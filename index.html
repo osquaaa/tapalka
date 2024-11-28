@@ -198,6 +198,20 @@
 				text-fill-color: transparent;
 				font-weight: 900;
 			}
+			.reward {
+				background: linear-gradient(180deg, #36eeff -1.85%, #52c2ff 98.15%), #eee0;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				text-fill-color: transparent;
+				font-weight: 900;
+			}
+			li{
+				font-size: 10px;
+			}
+			.rules-span{
+				font-size: 10px;
+			}
 		</style>
 	</head>
 	<body>
@@ -231,7 +245,12 @@
 		<div id="top-users">
 			<!-- Здесь будет отображаться список топовых пользователей -->
 		</div>
+		<div class="rules-prize" style='color: #fff; margin-top: 10px; font-weight: 800;'>Правила и условия<br><br>
 
+				<span class='rules-span'>1. Приз будет выдан в случае корректной почты в нике,<br> или при наличии доказательств<br> на принадлежность аккаунта</span><br><br>
+				<span class='rules-span'>2. Вы можете фармить очки только с 1 аккаунта, <br>выплаты за другие (в случае победы сразу нескольких аккаунтов) не будет произведено<br>, а ваше место передано игроку перед вами</span>
+
+		</div>
 		<script src="game.js"></script>
 	</body>
 </html>
