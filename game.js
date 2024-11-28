@@ -89,7 +89,7 @@ function displayTopUsers(users) {
 			prizeText = '(500 руб)'
 		} else if (index === 1) {
 			userElement.classList.add('top-user', 'silver') // Серебро для второго места
-			prizeText = '(250 руб)'
+			prizeText = '(300 руб)'
 		} else if (index === 2) {
 			userElement.classList.add('top-user', 'bronze') // Бронза для третьего места
 			prizeText = '(250 руб)'
