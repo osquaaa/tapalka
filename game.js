@@ -1,5 +1,13 @@
-const username = prompt('Введите вашу почту:') || 'guest'
+// const username = prompt('Введите вашу почту:') || 'guest'
+let username =
+	localStorage.getItem('username') ||
+	prompt('Введите ваше имя пользователя:') ||
+	'guest'
 
+// Сохраняем username в localStorage, если он был введен
+if (username !== 'guest') {
+	localStorage.setItem('username', username)
+}
 
 let score = 0
 let coins = 0
