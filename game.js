@@ -1,4 +1,3 @@
-// const username = prompt('Введите вашу почту:') || 'guest'
 let username =
 	localStorage.getItem('username') ||
 	prompt('Введите ваше имя пользователя:') ||
@@ -15,20 +14,29 @@ let coinsPerClick = 1
 let multiplier = 1
 
 const apiUrl = 'https://tapalka-arqm.onrender.com' // Ваш адрес на Render
-function createDots() {
-  const numDots = 50; // Количество точек
-  const background = document.getElementById('background-dots');
 
-  for (let i = 0; i < numDots; i++) {
-    const dot = document.createElement('div');
-    dot.classList.add('dot');
-    dot.style.width = `${Math.random() * 5 + 3}px`; // Размер точки
-    dot.style.height = dot.style.width;
-    dot.style.top = `${Math.random() * 100}vh`; // Случайное положение по вертикали
-    dot.style.left = `${Math.random() * 100}vw`; // Случайное положение по горизонтали
-    background.appendChild(dot);
-  }
+// Функция для создания летящих точек на фоне
+function createDots() {
+	const numDots = 50 // Количество точек
+	const background = document.getElementById('background-dots')
+
+	for (let i = 0; i < numDots; i++) {
+		const dot = document.createElement('div')
+		dot.classList.add('dot')
+		dot.style.width = `${Math.random() * 5 + 3}px` // Размер точки
+		dot.style.height = dot.style.width
+		dot.style.top = `${Math.random() * 100}vh` // Случайное положение по вертикали
+		dot.style.left = `${Math.random() * 100}vw` // Случайное положение по горизонтали
+		background.appendChild(dot)
+	}
 }
+
+// Функция для отображения приветствия
+function displayGreeting(name) {
+	const greetingElement = document.getElementById('greeting')
+	greetingElement.textContent = `Привет, ${name}` // Приветствие с именем пользователя
+}
+
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
@@ -41,6 +49,10 @@ async function fetchUser() {
 		coins = user.coins
 		coinsPerClick = user.coinsPerClick
 		multiplier = user.multiplier
+
+		// Показать приветствие после успешной загрузки данных пользователя
+		displayGreeting(user.username || username)
+
 		updateUI()
 	} catch (err) {
 		alert(err.message)
@@ -67,8 +79,20 @@ function displayTopUsers(users) {
 	topUsersList.innerHTML = '' // Очищаем текущий список
 
 	// Для каждого пользователя из топа создаем строку
-	users.forEach(user => {
+	users.forEach((user, index) => {
 		const userElement = document.createElement('p')
+
+		// Определяем класс для топ-3
+		if (index === 0) {
+			userElement.classList.add('top-user', 'gold') // Золото для первого места
+		} else if (index === 1) {
+			userElement.classList.add('top-user', 'silver') // Серебро для второго места
+		} else if (index === 2) {
+			userElement.classList.add('top-user', 'bronze') // Бронза для третьего места
+		} else {
+			userElement.classList.add('top-user') // Для остальных пользователей обычный стиль
+		}
+
 		userElement.textContent = `${user.username}: ${user.score} очков`
 		topUsersList.appendChild(userElement)
 	})
@@ -154,3 +178,4 @@ document
 
 // Загрузка данных пользователя при входе
 fetchUser()
+
