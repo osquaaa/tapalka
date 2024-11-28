@@ -1,7 +1,7 @@
 let username =
 	localStorage.getItem('username') ||
 	prompt('Введите ваше имя пользователя:') ||
-	'guest'
+	'guest (без аккаунта)'
 
 // Сохраняем username в localStorage, если он был введен
 if (username !== 'guest') {
