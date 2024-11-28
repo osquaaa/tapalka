@@ -108,7 +108,7 @@ function displayTopUsers(users) {
 
 // Загружаем топ пользователей при загрузке страницы
 fetchTopUsers()
-
+setInterval(fetchTopUsers, 7000)
 // Функция для клика по монете
 async function clickCoin() {
 	try {
