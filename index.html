@@ -176,6 +176,13 @@
 				background-clip: text;
 				text-fill-color: transparent;
 			}
+				.divider {
+				max-width: 300px; /* Ширина линии 80% от родительского контейнера */
+				height: 2px; /* Толщина линии */
+				background-color: white; /* Цвет линии */
+				border: none; /* Убираем любые другие границы */
+				margin: 20px auto; /* Центрируем и добавляем отступы сверху и снизу */
+			}
 		</style>
 	</head>
 	<body>
@@ -196,6 +203,7 @@
 		</div>
 		<button id="upgrade-click">+1 К КЛИКУ</button>
 		<button id="upgrade-double">ДАБЛ КЛИК</button>
+		<hr class="divider" />
 		<h2>Топ пользователей</h2>
 		<div class="prize-sub">
 			Первым 3 пользователям в топе будет <br />
