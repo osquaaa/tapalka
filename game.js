@@ -93,6 +93,9 @@ function displayTopUsers(users) {
 		} else if (index === 2) {
 			userElement.classList.add('top-user', 'bronze') // Бронза для третьего места
 			prizeText = '(250 руб)'
+		}else if (index === 9) {
+			userElement.classList.add('top-user', 'looser') // Бронза для третьего места
+			prizeText = '(ЛОХ)'
 		} else {
 			userElement.classList.add('top-user') // Для остальных пользователей обычный стиль
 		}
