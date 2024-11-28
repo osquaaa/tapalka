@@ -15,7 +15,20 @@ let coinsPerClick = 1
 let multiplier = 1
 
 const apiUrl = 'https://tapalka-arqm.onrender.com' // Ваш адрес на Render
+function createDots() {
+  const numDots = 50; // Количество точек
+  const background = document.getElementById('background-dots');
 
+  for (let i = 0; i < numDots; i++) {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    dot.style.width = `${Math.random() * 5 + 3}px`; // Размер точки
+    dot.style.height = dot.style.width;
+    dot.style.top = `${Math.random() * 100}vh`; // Случайное положение по вертикали
+    dot.style.left = `${Math.random() * 100}vw`; // Случайное положение по горизонтали
+    background.appendChild(dot);
+  }
+}
 // Функция для обновления данных пользователя
 async function fetchUser() {
 	try {
