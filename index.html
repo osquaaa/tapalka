@@ -26,28 +26,57 @@
 
 				font-family: 'Unbounded', serif;
 			}
+			/* Стили для топ-3 пользователей */
+			.top-user.gold {
+				background: linear-gradient(180deg, #ffbc6c -1.85%, #b0763f 98.15%),
+					#eee0;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				text-fill-color: transparent;
+				font-weight: 900;
+			}
+
+			.top-user.silver {
+				background: linear-gradient(180deg, #ffffff -1.85%, #7f7f7f 98.15%),
+					rgba(255, 255, 255, 0);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				text-fill-color: transparent;
+			}
+
+			.top-user.bronze {
+				background: linear-gradient(180deg, #5f3300 -1.85%, #ffa652 98.15%),
+					#eee0;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				text-fill-color: transparent;
+			}
+
 			/* Стили для точек на фоне */
 			#background-dots {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* Чтобы точки не мешали кликам по другим элементам */
-  z-index: -1; /* Чтобы точки были на фоне */
-  overflow: hidden;
-}
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none; /* Чтобы точки не мешали кликам по другим элементам */
+				z-index: -1; /* Чтобы точки были на фоне */
+				overflow: hidden;
+			}
 
-.dot {
-  position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  opacity: 0.1;
-  animation: moveDots 50s linear infinite, fadeIn 2s ease-in-out forwards; /* Добавляем анимацию появления и движения */
-  will-change: transform, opacity; /* Для улучшения производительности */
-}
+			.dot {
+				position: absolute;
+				background-color: white;
+				border-radius: 50%;
+				opacity: 0.1;
+				animation: moveDots 50s linear infinite, fadeIn 2s ease-in-out forwards; /* Добавляем анимацию появления и движения */
+				will-change: transform, opacity; /* Для улучшения производительности */
+			}
 
-/* Анимация для медленного движения точек */
+			/* Анимация для медленного движения точек */
 
 			#coin {
 				width: 210px;
@@ -124,11 +153,20 @@
 				color: #fff;
 				font-size: 14px;
 			}
+			#greeting {
+				color: #fff;
+				margin-bottom: 10px;
+				font-family: jura;
+				font-weight: 900;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="background-dots"></div>
+
+		<!-- Элемент для отображения приветствия -->
 		<h1>SPASSK<span>KOMBAT</span></h1>
+		<div id="greeting"></div>
 		<div id="coin" noselect></div>
 		<div id="stats">
 			<p id="score">Очков: 0</p>
@@ -137,7 +175,13 @@
 		<button id="upgrade-click">+1 К КЛИКУ</button>
 		<button id="upgrade-double">ДАБЛ КЛИК</button>
 		<h2>Топ пользователей</h2>
-		<div class="prize-sub">Первым 3 пользователям в топе будет <br> выплачен общий призовой <div class="my-email">1000 рублей</div> (до 02.12.24).<br> Для выдачи призовых писать на почту <div class="my-email">lohanton007@gmail.com</div>
+		<div class="prize-sub">
+			Первым 3 пользователям в топе будет <br />
+			выплачен общий призовой
+			<div class="my-email">1000 рублей</div>
+			(до 02.12.24).<br />
+			Для выдачи призовых писать на почту
+			<div class="my-email">lohanton007@gmail.com</div>
 		</div>
 		<div id="top-users">
 			<!-- Здесь будет отображаться список топовых пользователей -->
@@ -146,3 +190,4 @@
 		<script src="game.js"></script>
 	</body>
 </html>
+
