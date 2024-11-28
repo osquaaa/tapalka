@@ -161,11 +161,19 @@
 			#logout-btn {
 				padding: 5px;
 			}
+			.blur-pole {
+				background-color: #fff;
+				height: 150px;
+				width: 150px;
+				position: absolute;
+				filter: blur(100px);
+				z-index: -10;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="background-dots"></div>
-
+		<div class="blur-pole"></div>
 		<!-- Элемент для отображения приветствия -->
 		<h1>SPASSK<span>KOMBAT</span></h1>
 		<!-- Приветствие пользователя -->
