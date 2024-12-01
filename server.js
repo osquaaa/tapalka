@@ -123,6 +123,6 @@ app.get('/top-users', async (req, res) => {
 })
 
 // Динамический порт, предоставленный Render
-app.listen(process.env.PORT || 10000, () => {
+app.listen(process.env.PORT || 3000, () => {
 	console.log('Сервер запущен')
 })
