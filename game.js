@@ -194,5 +194,5 @@ document.getElementById('logout-btn').addEventListener('click', function () {
 
 	// Перезагружаем страницу, чтобы пользователь снова ввел имя
 	location.reload()
-})
+});
 
